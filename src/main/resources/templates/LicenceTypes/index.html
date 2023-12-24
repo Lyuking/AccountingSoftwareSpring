@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: meta-info}"/>
+<body>
+<div th:replace="~{fragments/header :: navbar}"/>
+<div  class="container">
+    <h1>Типы лицензии</h1>
+    <a class="btn btn btn-primary" style="margin-bottom: 1rem;" th:href="@{/licences}" role="button">Вернуться</a>
+    <a class="btn btn-success" style="margin-bottom: 1rem;" th:href="@{/licenceTypes/adding}">Добавить</a>
+    <span th:if="${licenceTypes.size() == 0}">Список типов лицензирования пуст</span>
+    <table th:if="${licenceTypes.size() > 0}" class="table table-hover">
+        <thead class="thead-dark">
+        <tr>
+            <td>ID</td>
+            <td>Наименование</td>
+            <td></td>
+            <td></td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="licenceType : ${licenceTypes}">
+            <td th:text="${licenceType.id}"/>
+            <td th:text="${licenceType.name}"/>
+            <td><a class="btn btn-warning"  th:href="@{'/licenceTypes/update/' + ${licenceType.id}}">Изменить</a></td>
+            <td><a href="#" class="btn btn-danger" th:attr="data-id=${licenceType.id}" onclick="confirmDelete(this);">Удалить</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+<script th:inline="javascript">
+    function confirmDelete() {
+        if (confirm("Вы точно хотите удалить выбранный тип лицензирования?")) {
+            var button = event.target;
+            var licenceTypeId = button.getAttribute("data-id");
+            window.location.href = '/licenceTypes/delete/' + licenceTypeId;
+        }
+    }
+</script>
+</html>

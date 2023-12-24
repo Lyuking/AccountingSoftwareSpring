@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: meta-info}"/>
+<body>
+<div th:replace="~{fragments/header :: navbar}"/>
+<div class="container">
+    <h1>Данные о лицензии</h1>
+    <h3><label class="form-label bold-text" th:text="'Тип лицензии: ' + (${licenceType == 'empty' ? 'Не указано' : licenceType.name})"/></h3>
+    <h3><label class="form-label bold-text" th:text="'Ответственное лицо: ' + (${employee == 'empty' ? 'Не указано' : employee.fullName})"/></h3>
+    <form action="#" th:action="@{${url}}"
+          th:object="${licenceDetails}" method="post">
+        <input type="hidden" th:field="*{id}" th:value="*{id}"/>
+        <div class = "form-group">
+            <label for="keyFormControlInput" class="form-label bold-text">Ключ</label>
+            <input type="text" class="form-control" id="keyFormControlInput" th:field="*{licenceKey}" placeholder="xxxx-xxxx-xxxx-xxxx">
+            <div class="alert alert-warning" th:if="${#fields.hasErrors('licenceKey')}" th:errors="*{licenceKey}"></div>
+        </div>
+        <div class = "form-group">
+            <label for="dateStartFormControlInput" class="form-label bold-text">Дата начала (день.месяц.год)</label>
+            <input type="text" class="form-control" id="dateStartFormControlInput" th:field="*{dateStart}" placeholder="05.06.2023">
+            <div class="alert alert-warning" th:if="${#fields.hasErrors('dateStart')}" th:errors="*{dateStart}"></div>
+        </div>
+        <div class = "form-group">
+            <label for="dateEndFormControlInput" class="form-label bold-text">Дата окончания (день.месяц.год)</label>
+            <input type="text" class="form-control" id="dateEndFormControlInput" th:field="*{dateEnd}" placeholder="10.09.2024">
+            <div class="alert alert-warning" th:if="${#fields.hasErrors('dateEnd')}" th:errors="*{dateEnd}"></div>
+        </div>
+        <div class = "form-group">
+            <label for="priceFormControlInput" class="form-label bold-text">Стоимость</label>
+            <input type="text" class="form-control" id="priceFormControlInput" th:field="*{price}" placeholder="10462.7">
+            <div class="alert alert-warning" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
+        </div>
+        <div class = "form-group">
+            <label for="countFormControlInput" class="form-label bold-text">Количество активаций</label>
+            <input type="text" class="form-control" id="countFormControlInput" th:field="*{count}" placeholder="100">
+            <div class="alert alert-warning" th:if="${#fields.hasErrors('count')}" th:errors="*{count}"></div>
+        </div>
+        <input type="submit" class="btn btn-success" style="margin-top: 1rem; margin-right: 1rem;" value="Применить"/>
+        <input type="reset" class="btn btn-warning" style="margin-top: 1rem;" value="Очистить поля ввода"/>
+    </form>
+    <a href="javascript:history.back()" class="btn btn-info" style="margin-top: 1rem;">Вернуться назад</a>
+</div>
+</body>
+</html>

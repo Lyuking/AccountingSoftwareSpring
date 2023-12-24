@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: meta-info}"/>
+<body>
+<div th:replace="~{fragments/header :: navbar}"/>
+<div  class="container">
+    <h1>Выбор типа лицензии</h1>
+    <a class="btn btn-warning" style="margin-bottom: 1rem;" th:href="@{${url} + ${'empty'}}">Пропустить</a>
+    <span th:if="${licenceTypes.size() == 0}"><h2>Список типов лицензий пуст</h2></span>
+    <table th:if="${licenceTypes.size() > 0}" class="table table-hover">
+        <thead class="thead-dark">
+        <tr>
+            <td>Наименование</td>
+            <td></td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="licenceType : ${licenceTypes}">
+            <td th:text="${licenceType.name}"/>
+            <td><a class="btn btn-success" th:href="@{${url} + ${licenceType.id}}">Выбрать</a></td>
+        </tr>
+        </tbody>
+    </table>
+    <a href="javascript:history.back()" class="btn btn-info" style="margin-top: 1rem;">Вернуться назад</a>
+</div>
+</body>
+</html>

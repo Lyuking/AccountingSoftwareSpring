@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: meta-info}"/>
+<body>
+<div th:replace="~{fragments/header :: navbar}"/>
+<div  class="container">
+    <h1>Список установленного ПО</h1>
+    <a class="btn btn btn-primary" style="margin-bottom: 1rem;" th:href="@{/licenceTypes}" role="button">Типы лицензий</a>
+    <a class="btn btn btn-primary" style="margin-bottom: 1rem;" th:href="@{/employees}" role="button">Сотрудники</a>
+    <h4><a class="btn btn-success" style="margin-bottom: 1rem;" th:href="@{/installedSoftwares/adding}">Добавить</a></h4>
+    <span th:if="${softwareCount == 0}">Список копий ПО пуст</span>
+    <table th:if="${softwareCount > 0}" class="table table-hover">
+        <thead class="thead-dark">
+        <tr>
+            <td>Аудитория</td>
+            <td>Номер компьютера</td>
+            <td>Наименование ПО</td>
+            <td>Ключ</td>
+            <td>Тип лицензии</td>
+            <td>Дата начала</td>
+            <td>Дата окончания</td>
+            <td></td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="computer : ${computers}">
+            <td th:text="${computer.audience == null? 'Не указано' : computer.audience.name}"/>
+            <td th:text="${computer.number}"></td>
+            <td><p th:each = "software : ${computer.softwares}" th:text="${software.softwareTechnicalDetails.name}"></p></td>
+            <td><p th:each = "software : ${computer.softwares}" th:text="${software.licence.licenceDetails.licenceKey}"></p></td>
+            <td><p th:each = "software : ${computer.softwares}" th:text="${software.licence.licenceType == null? 'Не указано' : software.licence.licenceType.name}"></p></td>
+            <td><p th:each = "software : ${computer.softwares}" th:text="${software.licence.licenceDetails.dateStart != null? software.licence.licenceDetails.dateStart : 'Не указано'}"></p></td>
+            <td><p th:each = "software : ${computer.softwares}" th:text="${software.licence.licenceDetails.dateEnd != null? software.licence.licenceDetails.dateEnd : 'Не указано'}"></p></td>
+            <td>
+                <div th:each="software, iterStat : ${computer.softwares}">
+                    <a href="#" class="btn" style="padding: 5px 10px;"
+                       th:attr="computer-id=${computer.id}, software-id=${software.id}"
+                       th:onclick="confirmDelete(this)"
+                       th:classappend="${iterStat.index % 2 == 0} ? 'btn-light' : 'btn-dark'">Удалить
+                    </a>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+<script th:inline="javascript">
+    function confirmDelete() {
+        if (confirm("Вы точно хотите удалить выбранную копию ПО с компьютера?")) {
+            var button = event.target;
+            var computerId = button.getAttribute("computer-id");
+            var softwareId = button.getAttribute("software-id");
+            window.location.href = '/installedSoftwares/delete/' + computerId + '/' + softwareId;
+        }
+    }
+</script>
+</html>

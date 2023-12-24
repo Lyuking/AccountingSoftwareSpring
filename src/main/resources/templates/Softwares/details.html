@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: meta-info}"/>
+<body>
+<div th:replace="~{fragments/header :: navbar}"/>
+<div class="container">
+    <h1>Детализация программного обеспечения</h1>
+    <div class="row">
+        <div class="col-md-6">
+            <h2 style="margin-bottom: 1rem;">Информация о ПО</h2>
+            <div th:if="${software.photo != null}"><img th:src="${imagePath}" alt="Photo of Software" style="max-width: 100%; max-height: 400px;"/></div>
+            <p th:text="'Предметная область: ' + ${software.subjectArea != null ? software.subjectArea.name : 'Не привязано'}"></p>
+            <p th:text="'Наименование ПО: ' + ${software.name}"></p>
+            <p th:text="'Описание: ' + ${software.description != null ? software.description : 'Не указано'}"></p>
+            <p th:text="'Требуемое место на диске: ' + ${software.requiredSpace != null ? software.requiredSpace : 'Не указано'}"></p>
+        </div>
+    </div>
+    <a href="javascript:history.back()" class="btn btn-info" style="margin-top: 1rem;">Вернуться назад</a>
+</div>
+</body>
+</html>

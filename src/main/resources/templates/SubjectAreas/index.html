@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: meta-info}"/>
+<body>
+<div th:replace="~{fragments/header :: navbar}"/>
+<div  class="container">
+    <h1>Предметные области</h1>
+    <a class="btn btn btn-primary" style="margin-bottom: 1rem;" th:href="@{/softwares}" role="button">Вернуться</a>
+    <a class="btn btn-success" style="margin-bottom: 1rem;" th:href="@{/subjectAreas/adding}">Добавить</a>
+    <span th:if="${subjectAreas.size() == 0}">Список предметных областей пуст</span>
+    <table th:if="${subjectAreas.size() > 0}" class="table table-hover">
+        <thead class="thead-dark">
+        <tr>
+            <td>ID</td>
+            <td>Наименование</td>
+            <td></td>
+            <td></td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="subjectArea : ${subjectAreas}">
+            <td th:text="${subjectArea.id}"/>
+            <td th:text="${subjectArea.name}"/>
+            <td><a class="btn btn-warning"  th:href="@{'/subjectAreas/update/' + ${subjectArea.id}}">Изменить</a></td>
+            <td><a href="#" class="btn btn-danger" th:attr="data-id=${subjectArea.id}" onclick="confirmDelete(this);">Удалить</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+<script th:inline="javascript">
+    function confirmDelete() {
+        if (confirm("Вы точно хотите удалить выбранную предметную область?")) {
+            var button = event.target;
+            var subjectAreaId = button.getAttribute("data-id");
+            window.location.href = '/subjectAreas/delete/' + subjectAreaId;
+        }
+    }
+</script>
+</html>

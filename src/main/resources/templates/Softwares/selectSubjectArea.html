@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: meta-info}"/>
+<body>
+<div th:replace="~{fragments/header :: navbar}"/>
+<div  class="container">
+    <h1>Выбор предметной области</h1>
+    <a class="btn btn-warning" style="margin-bottom: 1rem;" th:href="@{${url} + ${'empty'}}">Пропустить</a>
+    <span th:if="${subjectAreas.size() == 0}">Список предметных областей пуст</span>
+    <table th:if="${subjectAreas.size() > 0}" class="table table-hover">
+        <thead class="thead-dark">
+        <tr>
+            <td>Наименование</td>
+            <td></td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="subjectArea : ${subjectAreas}">
+            <td th:text="${subjectArea.name}"/>
+            <td><a class="btn btn-success" th:href="@{${url} + ${subjectArea.id}}">Выбрать</a></td>
+        </tr>
+        </tbody>
+    </table>
+    <a href="javascript:history.back()" class="btn btn-info" style="margin-top: 1rem;">Вернуться назад</a>
+</div>
+</body>
+</html>

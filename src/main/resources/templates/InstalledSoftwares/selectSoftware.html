@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: meta-info}"/>
+<body>
+<div th:replace="~{fragments/header :: navbar}"/>
+<div  class="container">
+    <h1>Выбор программного обеспечения</h1>
+    <h3 th:text="${'Аудитория: ' + (audience != 'empty' ? audience.name : 'Не указано')}"></h3>
+    <h3 th:text="${'Номер компьютера: ' + computer.number}"></h3>
+    <span th:if="${softwaresUnique.size() == 0}">Список ПО пуст</span>
+    <table th:if="${softwaresUnique.size() > 0}" class="table table-hover">
+        <thead class="thead-dark">
+        <tr>
+            <td>Наименование</td>
+            <td>Предметная область</td>
+            <td></td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="software : ${softwaresUnique}">
+            <td th:text="${software.name}"/>
+            <td th:text="${software.subjectArea != null ? software.subjectArea.name : 'Не указано'}"/>
+            <td><a class="btn btn-success" th:href="@{${url} + ${software.id}}">Выбрать</a></td>
+        </tr>
+        </tbody>
+    </table>
+    <a href="javascript:history.back()" class="btn btn-info" style="margin-top: 1rem;">Вернуться назад</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: meta-info}"/>
+<body>
+<div th:replace="~{fragments/header :: navbar}"/>
+<div  class="container">
+    <h1>Компьютеры</h1>
+    <a class="btn btn btn-primary" style="margin-bottom: 1rem;" th:href="@{/audiences}" role="button">Аудитории</a>
+    <a class="btn btn-success" style="margin-bottom: 1rem;" th:href="@{/computers/selectAudienceI}">Добавить</a>
+    <span th:if="${computers.size() == 0}">Список компьютеров пуст</span>
+    <table th:if="${computers.size() > 0}" class="table table-hover">
+        <thead class="thead-dark">
+        <tr>
+            <td>ID</td>
+            <td>Номер компьютера</td>
+            <td>Номер аудитории</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="computer : ${computers}">
+            <td th:text="${computer.id}"/>
+            <td th:text="${computer.number}"/>
+            <td th:text="${computer.audience != null ? computer.audience.name : 'Не привязано'}"></td>
+            <td><a class="btn btn-info" th:href="@{'/computers/details/' + ${computer.id}}">Детализация</a></td>
+            <td><a class="btn btn-warning"  th:href="@{'/computers/selectAudienceU/' + ${computer.id}}">Изменить</a></td>
+            <td><a href="#" class="btn btn-danger" th:attr="data-id=${computer.id}" onclick="confirmDelete(this);">Удалить</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+<script th:inline="javascript">
+    function confirmDelete() {
+        if (confirm("Вы точно хотите удалить выбранный компьютер?")) {
+            var button = event.target;
+            var entityId = button.getAttribute("data-id");
+            window.location.href = '/computers/delete/' + entityId;
+        }
+    }
+</script>
+</html>

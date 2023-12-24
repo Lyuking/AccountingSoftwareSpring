@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: meta-info}"/>
+<body>
+<div th:replace="~{fragments/header :: navbar}"/>
+<div  class="container">
+    <h1>Программное обеспечение</h1>
+    <a class="btn btn btn-primary" style="margin-bottom: 1rem;" th:href="@{/subjectAreas}" role="button">Предметные области</a>
+    <a class="btn btn-success" style="margin-bottom: 1rem;" th:href="@{/softwares/selectSubjectAreaI}">Добавить</a>
+    <span th:if="${softwares.size() == 0}">Список программного обеспечения пуст</span>
+    <table th:if="${softwares.size() > 0}" class="table table-hover">
+        <thead class="thead-dark">
+        <tr>
+            <td>ID</td>
+            <td>Наименование</td>
+            <td>Предметная область</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="software : ${softwares}">
+            <td th:text="${software.id}"/>
+            <td th:text="${software.name}"/>
+            <td th:text="${software.subjectArea != null ? software.subjectArea.name : 'Не привязано'}"></td>
+            <td><a class="btn btn-info" th:href="@{'/softwares/details/' + ${software.id}}">Детализация</a></td>
+            <td><a class="btn btn-warning"  th:href="@{'/softwares/selectSubjectAreaU/' + ${software.id}}">Изменить</a></td>
+            <td><a href="#" class="btn btn-danger" th:attr="data-id=${software.id}" onclick="confirmDelete(this);">Удалить</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+<script th:inline="javascript">
+    function confirmDelete() {
+        if (confirm("Вы точно хотите удалить выбранное ПО и связанные с ним лицензии?")) {
+            var button = event.target;
+            var entityId = button.getAttribute("data-id");
+            window.location.href = '/softwares/delete/' + entityId;
+        }
+    }
+</script>
+</html>

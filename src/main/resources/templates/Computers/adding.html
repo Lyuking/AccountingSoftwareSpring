@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: meta-info}"/>
+<body>
+<div th:replace="~{fragments/header :: navbar}"/>
+<div class="container">
+    <h1>Добавление компьютера</h1>
+    <h3 th:if="${computer.getAudience() != null}"><label class="form-label bold-text" th:text="'Аудитория: ' + ${computer.audience.name}"/></h3>
+    <form action="#" th:action="@{/computers/adding}"
+          th:object="${computer}" method="post">
+        <input type="hidden" th:if="${computer.getAudience() != null}" th:field="*{audience}" value="${computer.audience}"/>
+        <div class="form-group">
+            <label for="numberFormControlInput" class="form-label bold-text">Номер компьютера</label>
+            <input type="text" class="form-control" id="numberFormControlInput" th:field="*{number}" placeholder="409800">
+            <div class="alert alert-warning" th:if="${#fields.hasErrors('number')}" th:errors="*{number}"></div>
+        </div>
+        <div class="form-group">
+            <label for="ipFormControlInput" class="form-label bold-text">IP-адрес</label>
+            <input type="text" class="form-control" id="ipFormControlInput" th:field="*{ipAddress}" placeholder="192.168.0.1">
+            <div class="alert alert-warning" th:if="${#fields.hasErrors('ipAddress')}" th:errors="*{ipAddress}"></div>
+        </div>
+        <div class="form-group">
+            <label for="processorFormControlInput" class="form-label bold-text">Процессор</label>
+            <input type="text" class="form-control" id="processorFormControlInput" th:field="*{processor}" placeholder="i7-4770k">
+            <div class="alert alert-warning" th:if="${#fields.hasErrors('processor')}" th:errors="*{processor}"></div>
+        </div>
+        <div class="form-group">
+            <label for="videocardFormControlInput" class="form-label bold-text">Видеокарта</label>
+            <input type="text" class="form-control" id="videocardFormControlInput" th:field="*{videocard}" placeholder="RX580">
+            <div class="alert alert-warning" th:if="${#fields.hasErrors('videocard')}" th:errors="*{videocard}"></div>
+        </div>
+        <div class="form-group">
+            <label for="ramFormControlInput" class="form-label bold-text">Объем озу</label>
+            <input type="text" class="form-control" id="ramFormControlInput" th:field="*{ram}" placeholder="16GB">
+            <div class="alert alert-warning" th:if="${#fields.hasErrors('ram')}" th:errors="*{ram}"></div>
+        </div>
+        <div class="form-group">
+            <label for="totalSpaceFormControlInput" class="form-label bold-text">Объем места на диске</label>
+            <input type="text" class="form-control" id="totalSpaceFormControlInput" th:field="*{totalSpace}" placeholder="1TB">
+            <div class="alert alert-warning" th:if="${#fields.hasErrors('totalSpace')}" th:errors="*{totalSpace}"></div>
+        </div>
+        <input type="submit" class="btn btn-success" style="margin-top: 1rem; margin-right: 1rem;" value="Добавить"/>
+        <input type="reset" class="btn btn-warning" style="margin-top: 1rem;" value="Очистить поля ввода"/>
+    </form>
+    <a href="javascript:history.back()" class="btn btn-info" style="margin-top: 1rem;">Вернуться назад</a>
+</div>
+</body>
+</html>

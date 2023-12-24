@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: meta-info}"/>
+<body>
+<div th:replace="~{fragments/header :: navbar}"/>
+<div  class="container">
+    <h1>Выбор лицензии программного обеспечения</h1>
+    <h3 th:text="${'Аудитория: ' + (audience != 'empty' ? audience.name : 'Не указано')}"></h3>
+    <h3 th:text="${'Номер компьютера: ' + computer.number}"></h3>
+    <h3 th:text="${'Наименование ПО: ' + currentSoftware.name}"></h3>
+    <span th:if="${softwares.size() == 0}">Список лицензий у ПО пуст</span>
+    <table th:if="${softwares.size() > 0}" class="table table-hover">
+        <thead class="thead-dark">
+        <tr>
+            <td>Ключ</td>
+            <td>Тип лицензии</td>
+            <td>Дата начала</td>
+            <td>Дата окончания</td>
+            <td>Ответственное лицо</td>
+            <td></td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="software : ${softwares}">
+            <td th:text="${software.licence.licenceDetails.licenceKey}"/>
+            <td th:text="${software.licence.licenceType != null? software.licence.licenceType.name : 'Не указано'}"/>
+            <td th:text="${software.licence.licenceDetails.dateStart != null? software.licence.licenceDetails.dateStart : 'Не указано'}"/>
+            <td th:text="${software.licence.licenceDetails.dateEnd != null? software.licence.licenceDetails.dateEnd : 'Не указано'}"/>
+            <td th:text="${software.licence.employee != null? software.licence.employee.fullName : 'Не указано'}"/>
+            <td><a class="btn btn-success" th:href="@{${url} + ${software.id}}">Выбрать</a></td>
+        </tr>
+        </tbody>
+    </table>
+    <a href="javascript:history.back()" class="btn btn-info" style="margin-top: 1rem;">Вернуться назад</a>
+</div>
+</body>
+</html>

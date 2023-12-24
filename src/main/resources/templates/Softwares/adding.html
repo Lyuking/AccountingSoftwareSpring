@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: meta-info}"/>
+<body>
+<div th:replace="~{fragments/header :: navbar}"/>
+<div class="container">
+    <h1>Добавление программного обеспечения</h1>
+    <h3><label class="form-label bold-text" th:text="'Предметная область: ' + (${softwareTechnicalDetails.subjectArea == null ? 'Не указано' : softwareTechnicalDetails.subjectArea.name})"/></h3>
+    <form action="#" th:action="@{/softwares/adding}"
+          th:object="${softwareTechnicalDetails}" method="post" enctype="multipart/form-data">
+        <input type="hidden" th:field="*{subjectArea}" value="${softwareTechnicalDetails.subjectArea}"/>
+        <div class = "form-group">
+            <label for="nameFormControlInput" class="form-label bold-text">Наименование ПО</label>
+            <input type="text" class="form-control" id="nameFormControlInput" th:field="*{name}" placeholder="NetBeans">
+            <div class="alert alert-warning" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+        </div>
+        <div class = "form-group">
+            <label for="descFormControlInput" class="form-label bold-text">Описание</label>
+            <input type="text" class="form-control" id="descFormControlInput" th:field="*{description}" placeholder="Текстовое описание программного обеспечения">
+            <div class="alert alert-warning" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
+        </div>
+        <div class = "form-group">
+            <label for="reqSpaceFormControlInput" class="form-label bold-text">Место на диске</label>
+            <input type="text" class="form-control" id="reqSpaceFormControlInput" th:field="*{requiredSpace}" placeholder="6GB">
+            <div class="alert alert-warning" th:if="${#fields.hasErrors('requiredSpace')}" th:errors="*{requiredSpace}"></div>
+        </div>
+        <div class="form-group">
+            <label for="imageInput" class="form-label bold-text">Изображение</label>
+            <input type="file" id="imageInput" name="image" accept="image/*" class="form-control-file">
+        </div>
+        <input type="submit" class="btn btn-success" style="margin-top: 1rem; margin-right: 1rem;" value="Добавить"/>
+        <input type="reset" class="btn btn-warning" style="margin-top: 1rem;" value="Очистить поля ввода"/>
+    </form>
+    <a href="javascript:history.back()" class="btn btn-info" style="margin-top: 1rem;">Вернуться назад</a>
+</div>
+</body>
+</html>

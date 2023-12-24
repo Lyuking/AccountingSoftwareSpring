@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: meta-info}"/>
+<body>
+<div th:replace="~{fragments/header :: navbar}"/>
+<div  class="container">
+    <h1>Сотрудники</h1>
+    <a class="btn btn btn-primary" style="margin-bottom: 1rem;" th:href="@{/licences}" role="button">Вернуться</a>
+    <a class="btn btn-success" style="margin-bottom: 1rem;" th:href="@{/employees/adding}">Добавить сотрудника</a>
+    <span th:if="${employees.size() == 0}">Список сотрудников пуст</span>
+    <table th:if="${employees.size() > 0}" class="table table-hover">
+        <thead class="thead-dark">
+        <tr>
+            <td>ФИО</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="employee : ${employees}">
+            <td th:text="${employee.fullName}"/>
+            <td><a class="btn btn-info" th:href="@{'/employees/details/' + ${employee.id}}">Детализация</a></td>
+            <td><a class="btn btn-warning"  th:href="@{'/employees/update/' + ${employee.id}}">Изменить</a></td>
+            <td><a href="#" class="btn btn-danger" th:attr="data-id=${employee.id}" onclick="confirmDelete(this);">Удалить</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+<script th:inline="javascript">
+    function confirmDelete() {
+        if (confirm("Вы точно хотите удалить выбранного сотрудника?")) {
+            var button = event.target;
+            var entityId = button.getAttribute("data-id");
+            window.location.href = '/employees/delete/' + entityId;
+        }
+    }
+</script>
+</html>

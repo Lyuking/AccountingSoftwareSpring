@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: meta-info}"/>
+<body>
+<div th:replace="~{fragments/header :: navbar}"/>
+<div  class="container">
+    <h1>Список копий ПО</h1>
+    <a class="btn btn btn-primary" style="margin-bottom: 1rem;" th:href="@{/licenceTypes}" role="button">Типы лицензий</a>
+    <a class="btn btn btn-primary" style="margin-bottom: 1rem;" th:href="@{/employees}" role="button">Сотрудники</a>
+    <h4><a class="btn btn-success" style="margin-bottom: 1rem;" th:href="@{/licences/adding}">Добавить</a></h4>
+    <span th:if="${softwareLicences.size() == 0}">Список копий ПО пуст</span>
+    <table th:if="${softwareLicences.size() > 0}" class="table table-hover">
+        <thead class="thead-dark">
+        <tr>
+            <td>Наименование ПО</td>
+            <td>Ключ</td>
+            <td>Тип лицензии</td>
+            <td>Дата начала</td>
+            <td>Дата окончания</td>
+            <td>Количество</td>
+            <td>Ответственное лицо</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="softwareLicence : ${softwareLicences}">
+            <td th:text="${softwareLicence.softwareTechnicalDetails.name}"/>
+            <td th:text="${softwareLicence.licence.licenceDetails.licenceKey}"></td>
+            <td th:text="${softwareLicence.licence.licenceType != null ? softwareLicence.licence.licenceType.name : 'Не привязано'}"></td>
+            <td th:text="${softwareLicence.licence.licenceDetails.dateStart != null ? softwareLicence.licence.licenceDetails.dateStart : 'Не привязано'}"></td>
+            <td th:text="${softwareLicence.licence.licenceDetails.dateEnd != null ? softwareLicence.licence.licenceDetails.dateEnd : 'Не привязано'}"></td>
+            <td th:text="${softwareLicence.licence.licenceDetails.count != null ? softwareLicence.licence.licenceDetails.count : 'Не привязано'}"></td>
+            <td th:text="${softwareLicence.licence.employee != null ? softwareLicence.licence.employee.fullName : 'Не привязано'}"></td>
+            <td><a class="btn btn-warning" style="font-size:12px;" th:href="@{'/licences/updateDetails/' + ${softwareLicence.licence.id}}">Изменить данные</a></td>
+            <td><a class="btn btn-secondary" style="font-size:12px;" th:href="@{'/licences/updateType/' + ${softwareLicence.licence.id}}">Изменить тип</a></td>
+            <td><a class="btn btn-info" style="font-size:12px;" th:href="@{'/licences/updateEmployee/' + ${softwareLicence.licence.id}}">Изменить ответственного</a></td>
+            <td><a href="#" class="btn btn-danger" th:attr="data-id=${softwareLicence.licence.licenceDetails.id}" onclick="confirmDelete(this);">Удалить</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+<script th:inline="javascript">
+    function confirmDelete() {
+        if (confirm("Вы точно хотите удалить копию программного обеспечения? Данное действие необратимо и приведет к удалению информации о текущих копиях на компьютерах")) {
+            var button = event.target;
+            var entityId = button.getAttribute("data-id");
+            window.location.href = '/licences/delete/' + entityId;
+        }
+    }
+</script>
+</html>

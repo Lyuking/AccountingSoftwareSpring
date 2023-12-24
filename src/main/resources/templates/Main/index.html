@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{/css/style.css}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}"/>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <div class="container">
+        <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+            <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+                <!--<svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>-->
+                <span class="fs-4">Учет ПО</span>
+            </a>
+            <ul class="nav nav-pills">
+                <li class="nav-item"><a th:href="@{/audiences}" class="nav-link">Аудитории</a></li>
+                <li class="nav-item"><a th:href="@{/computers}" class="nav-link">Компьютеры</a></li>
+                <li class="nav-item"><a th:href="@{/employees}" class="nav-link">Сотрудники</a></li>
+                <li class="nav-item"><a th:href="@{/softwares}" class="nav-link">ПО</a></li>
+                <li class="nav-item"><a th:href="@{/licences}" class="nav-link">Список лицензий</a></li>
+                <li class="nav-item"><a th:href="@{/installedSoftwares}" class="nav-link">Список установленного ПО</a></li>
+                <li class="nav-item"><a th:href="@{/licenceDetailses}" class="nav-link">Детализация лицензирования</a></li>
+                <li class="nav-item"><a th:href="@{/about}" class="nav-link active" aria-current="page">Автор</a></li>
+                <!-- th:href="@{/about(name=${authorName})}"-->
+            </ul>
+        </header>
+    </div>
+</head>
+<body>
+    <p th:text="'Текущая страница' + ${data} + '!'"/>
+</body>
+</html>
